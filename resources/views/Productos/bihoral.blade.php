@@ -33,53 +33,49 @@
 
   <body>
 
-    @include('Layouts.nav')   
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-            @include('Layouts.menu')             
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Mis datos</h1>
-
-          <h2 class="sub-header">{{ Auth::User()->str_nombres }} {{ Auth::User()->str_apellidos }} - 
-          @if(Auth::User()->cod_tipo_usuario == 'TU001')
-          Administrador
-          @endif
-
-          @if(Auth::User()->cod_tipo_usuario == 'TU002')
-          Gerente general
-          @endif
-
-          @if(Auth::User()->cod_tipo_usuario == 'TU003')
-          Gerente
-          @endif
-
-          @if(Auth::User()->cod_tipo_usuario == 'TU004')
-          Jefe de producción
-          @endif
-
-          @if(Auth::User()->cod_tipo_usuario == 'TU005')
-          Jefe de calidad
-          @endif
-          </h2>
-
-          <form method="POST" action=""> 
-          {{ csrf_field() }}
-            <div class="form-group col-sm-4">
-                <label for="formGroupExampleInput">Documento</label>
-                <input type="text" class="form-control" id="cod_producto" name="cod_producto" placeholder="DUI: {{ Auth::User()->str_doc_id }}">
-            </div>
-            <div class="form-group col-sm-4">
-                <label for="formGroupExampleInput">Teléfono</label>
-                <input type="text" class="form-control" id="nbr_producto" name="nbr_producto" placeholder="Número: {{ Auth::User()->str_telefono }}">
-            </div>            
-          </form>
-
-        </div>
-      </div>
+    <h2 class="sub-header">Bihoral del {{ $fecha }}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Área</th>
+                <th>B1</th>
+                <th>Comentarios</th>
+                <th>B2</th>
+                <th>Comentarios</th>
+                <th>B3</th>
+                <th>Comentarios</th>
+                <th>B4</th>
+                <th>Comentarios</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Mesa</td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+            </tr>
+            @foreach ($operarios as $operario)
+            <tr>
+                <td>{{ $operario->str_nombres }} {{ $operario->apellidos }}</td>
+                @foreach ($denegados as $denegado)
+                @if($denegado->produccion->cod_empleado == $operario->cod_empleado)
+                <td>Hola</td><td>Adios</td>
+                @endif
+                @endforeach
+            </tr>
+            @endforeach
+            </tbody>
+        </table>       
     </div>
+
+    
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

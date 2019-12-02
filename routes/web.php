@@ -36,6 +36,11 @@ Route::get('/usuarios/crear', [
     'as' => 'crear', 
     'uses' => 'UsuarioController@crear'
 ]);
+//Ruta para actualizar clave
+Route::post('/clave', [
+    'as' => 'clave_act', 
+    'uses' => 'UsuarioController@clave_act'
+]);
 
 //Ruta para los empleados
 Route::get('/operarios/ver', 'OperarioController@ver_empleados')->name('ver_empleados');
@@ -108,3 +113,15 @@ Route::post('/compra/recibida/{id}/{ip}', [
 //Rutas para ver los rechazos de produccion
 Route::get('/rechazos/produccion', 'ProductoController@rechazos_produccion')->name('rechazos_produccion');
 Route::get('/rechazos/compras', 'ProductoController@rechazos_compra')->name('rechazos_compra');
+//Ruta para fitrar los rechazos por producciónb
+Route::post('/rechazos/filtrar', [
+    'as' => 'filtrar_rechazos', 
+    'uses' => 'ProductoController@filtrar_rechazos'
+]);
+//Rutas para ver los histogramas
+Route::get('/histograma', 'ProductoController@histograma')->name('histograma');
+
+//Rutas para los bihorales
+Route::get('/bihorales', 'ProductoController@ver_bihorales')->name('ver_bihorales');
+//Ruta para generar bihoral de hoy
+Route::get('/bihorales/hoy', 'ProductoController@bihoral_hoy')->name('bihoral_hoy');

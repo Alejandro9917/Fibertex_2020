@@ -43,30 +43,53 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">Rechazos de producción</h1>
 
-          <h2 class="sub-header">Producción</h2>
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Código de rechazo</th>
-                  <th>Producto</th>
-                  <th>Cantidad rechazada(lotes)</th>
-                  <th>Fecha de rechazo</th>
-                  <th>Detalles</th>
-                </tr>
-              </thead>
-              <tbody>
-              @foreach ($denegados as $denegado)
-                <tr>
-                  <td>{{ $denegado->cod_producto_denagado }}</td>
-                  <td>{{ $denegado->producto->nbr_producto }}</td>
-                  <td>{{ $denegado->num_producto_denegado }}</td>
-                  <td>{{ $denegado->updated_at }}</td>
-                  <td><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ $denegado->cod_producto_denagado }}">...</a></td>
-                </tr>
-              @endforeach
-              </tbody>
-            </table>              
+          <form method="POST" action="{{ route('filtrar_rechazos') }}"> 
+          {{ csrf_field() }}
+            <div class="form-group col-sm-3">
+                <label for="formGroupExampleInput">Fecha inicio</label>
+                <input type="text" class="form-control" id="fec_inicio" name="fec_inicio" placeholder="AAAA/MM/DD">
+            </div>
+            <div class="form-group col-sm-3">
+                <label for="formGroupExampleInput">Fecha fin</label>
+                <input type="text" class="form-control" id="fec_fin" name="fec_fin" placeholder="AAAA/MM/DD">
+            </div>
+            <div class="form-group col-sm-2">
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Buscar</button>
+            </div>
+            <div class="form-group col-sm-2">
+              <a href="{{ route('ver_empleados') }}" type="button" class="btn btn-primary btn-lg">Ver todos</a>
+            </div>
+            <div class="form-group col-sm-2">
+              <a href="{{ route('histograma') }}" type="button" class="btn btn-primary btn-lg">Gráfica</a>
+            </div>
+          </form>
+
+          <div class="col-sm-12">
+            <h2 class="sub-header">Producción</h2>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Código de rechazo</th>
+                    <th>Producto</th>
+                    <th>Cantidad rechazada(lotes)</th>
+                    <th>Fecha de rechazo</th>
+                    <th>Detalles</th>
+                  </tr>
+                </thead>
+                <tbody>
+                @foreach ($denegados as $denegado)
+                  <tr>
+                    <td>{{ $denegado->cod_producto_denagado }}</td>
+                    <td>{{ $denegado->producto->nbr_producto }}</td>
+                    <td>{{ $denegado->num_producto_denegado }}</td>
+                    <td>{{ $denegado->updated_at }}</td>
+                    <td><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ $denegado->cod_producto_denagado }}">...</a></td>
+                  </tr>
+                @endforeach
+                </tbody>
+              </table>              
+            </div>
           </div>
 
           <!--Espacio para el modal-->

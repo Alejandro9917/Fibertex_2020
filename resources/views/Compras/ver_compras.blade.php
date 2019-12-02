@@ -52,7 +52,7 @@
                   <th>Código de producto</th>
                   <th>Empresa</th>
                   <th>Precio total</th>
-                  <th>Fecha rquerida</th>
+                  <th>Fecha requerida</th>
                   <th>Estado</th>
                   <th>Detalles</th>
                 </tr>

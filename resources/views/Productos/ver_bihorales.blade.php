@@ -40,46 +40,29 @@
         <div class="col-sm-3 col-md-2 sidebar">
             @include('Layouts.menu')             
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Mis datos</h1>
+        <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-3 main">
+          <h1 class="page-header">Generar bihorales</h1>
 
-          <h2 class="sub-header">{{ Auth::User()->str_nombres }} {{ Auth::User()->str_apellidos }} - 
-          @if(Auth::User()->cod_tipo_usuario == 'TU001')
-          Administrador
-          @endif
-
-          @if(Auth::User()->cod_tipo_usuario == 'TU002')
-          Gerente general
-          @endif
-
-          @if(Auth::User()->cod_tipo_usuario == 'TU003')
-          Gerente
-          @endif
-
-          @if(Auth::User()->cod_tipo_usuario == 'TU004')
-          Jefe de producción
-          @endif
-
-          @if(Auth::User()->cod_tipo_usuario == 'TU005')
-          Jefe de calidad
-          @endif
-          </h2>
-
-          <form method="POST" action=""> 
+          <form method="POST" action="{{ route('crear_producto') }}"> 
           {{ csrf_field() }}
             <div class="form-group col-sm-4">
-                <label for="formGroupExampleInput">Documento</label>
-                <input type="text" class="form-control" id="cod_producto" name="cod_producto" placeholder="DUI: {{ Auth::User()->str_doc_id }}">
+                <label for="formGroupExampleInput">Ingrese día del bihoral</label>
+                <input type="text" class="form-control" id="fec" name="fec" placeholder="AAAA/MM/DD">
             </div>
-            <div class="form-group col-sm-4">
-                <label for="formGroupExampleInput">Teléfono</label>
-                <input type="text" class="form-control" id="nbr_producto" name="nbr_producto" placeholder="Número: {{ Auth::User()->str_telefono }}">
-            </div>            
+            <div class="form-group col-sm-4 ">
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Generar bihoral fecha indicada</button>
+            </div>
           </form>
+          <div class="col-sm-4 ">
+              <a href="{{ route('bihoral_hoy') }}" class="btn btn-lg btn-primary btn-block" type="submit">Generar bihoral de hoy</a>
+              <a href="{{ route('histograma') }}" class="btn btn-lg btn-primary btn-block" type="submit">Generar bihoral de hoy</a>
+            </div>
 
         </div>
       </div>
     </div>
+
+    
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

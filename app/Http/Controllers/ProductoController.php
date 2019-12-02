@@ -261,7 +261,7 @@ class ProductoController extends Controller
         {
             if(Auth::User()->cod_tipo_usuario == 'TU005')
             {
-                $denegados = ProductoDenegado::where('cod_orden_produccion', null)->get();
+                $denegados = ProductoDenegado::where('cod_orden_produccion', null)->where('updated_at', getdate())->get();
                 return view('Compras.rechazos')->with('denegados', $denegados);
             }
 
@@ -275,5 +275,121 @@ class ProductoController extends Controller
         {
             return redirect('/');
         }  
+    }
+
+    //Metodo para filtrar los rechazos por fecha
+    public function filtrar_rechazos(Request $request)
+    {
+        if(Auth::check())
+        {
+            $validator = Validator::make($request->all(), [
+                'fec_inicio' => 'required', 
+                'fec_fin' => 'required', 
+            ]);
+
+            $denegados = ProductoDenegado::where('updated_at', 'between', [$request->fec_inicio, $request->fec_fin])->where('cod_orden_compra', null)->get();
+            return view('Productos.rechazos')->with('denegados', $denegados);
+        }
+        
+        else
+        {
+            return redirect('/');
+        }
+    }
+
+    //Metodo para ver los histograma
+    public function histograma()
+    {
+        if(Auth::check())
+        {
+            $operarios = Operario::get();
+            $denegados = ProductoDenegado::whereNull('cod_orden_compra')->get();
+            $operario_denegados = array();
+            $n = 0;
+
+            foreach($operarios as $operario)
+            {
+                $n = 0;
+                foreach($denegados as $denegado)
+                {
+                    if($denegado->produccion->cod_empleado == $operario->cod_empleado)
+                    {
+                        $n++;
+                    }
+                }
+                $operario_denegados[] = ['Nombre'=>$operario->str_nombres,
+                'Rechazos'=>$n];
+            }
+
+            /*$hola = ([
+                ['Nombre'=>'Juan',
+                'Rechazos'=>1],
+                ['Nombre'=>'Carlos',
+                'Rechazos'=>7]
+            ]);
+
+            @foreach($operario_denegados as $od)
+            ["{{$od['Nombre']}}", {{$od['Rechazos']}}],
+            @endforeach
+
+            $hola[] = ['Nombre'=>'Fer',
+            'Rechazos'=>3];*/
+
+            //return $operario_denegados;
+
+            return view('Productos.histograma')->with('operario_denegados', $operario_denegados);
+        }
+        
+        else
+        {
+            return redirect('/');
+        }
+    }
+
+    //Metodo para los bihorales
+    public function ver_bihorales()
+    {
+        if(Auth::check())
+        {
+            if(Auth::User()->cod_tipo_usuario == 'TU002' || Auth::User()->cod_tipo_usuario == 'TU003' || Auth::User()->cod_tipo_usuario == 'TU005')
+            {
+                return view('Productos.ver_bihorales');
+            }
+
+            else
+            {
+                return redirect()->route('datos');
+            }
+        }
+        
+        else
+        {
+            return redirect('/');
+        }
+    }
+
+    public function bihoral_hoy()
+    {
+        if(Auth::check())
+        {
+            if(Auth::User()->cod_tipo_usuario == 'TU002' || Auth::User()->cod_tipo_usuario == 'TU003' || Auth::User()->cod_tipo_usuario == 'TU005')
+            {
+                //$denegados = ProductoDenegado::where('cod_orden_compra', null)->whereBetween('updated_at', ['2019/11/19', '2019/11/20'])->get();
+                $denegados = ProductoDenegado::whereBetween('updated_at', [date('Y/m/d 00:00:00'), date('Y/m/').(date('d')+1).' 00:00:00'])->whereNull('cod_orden_compra')->get();
+                $operarios = Operario::get();
+                $pdf = \PDF::loadView('Productos.bihoral', compact('denegados', 'operarios'));
+                return $pdf->download('Bihoral');
+            }
+
+            else
+            {
+                return redirect()->route('datos');
+            }
+        }
+        
+        else
+        {
+            return redirect('/');
+        }
     }
 }

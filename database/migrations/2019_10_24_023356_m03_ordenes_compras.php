@@ -30,8 +30,8 @@ class M03OrdenesCompras extends Migration
             $table->string('estado', 1);
             $table->timestamps();
 
-            $table->foreign('cod_empleado_solicita')->references('cod_empleado_solicita')->on('users');
-            $table->foreign('cod_empleado_autoriza')->references('cod_empleado_autoriza')->on('users');
+            $table->foreign('cod_empleado_solicita')->references('cod_usuario')->on('users');
+            $table->foreign('cod_empleado_autoriza')->references('cod_usuario')->on('users');
             $table->foreign('cod_empresa')->references('cod_empresa')->on('m01_empresas');
             $table->foreign('cod_producto')->references('cod_producto')->on('m01_productos');         
         });

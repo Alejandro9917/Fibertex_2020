@@ -29,7 +29,7 @@ class M03OrdenesProduccion extends Migration
             $table->timestamps();
 
             $table->foreign('cod_producto')->references('cod_producto')->on('m01_productos');
-            $table->foreign('cod_usuario_cumplimiento')->references('cod_usuario_cumplimiento')->on('m02_usuarios');
+            $table->foreign('cod_usuario_cumplimiento')->references('cod_usuario')->on('users');
             $table->foreign('cod_empleado')->references('cod_empleado')->on('m01_empleados');
         });
     }

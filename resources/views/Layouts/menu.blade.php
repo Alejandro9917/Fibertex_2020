@@ -17,7 +17,7 @@
             @endif
             <li class="list-group-item"><a href="{{ route('ver_usuarios') }}">Ver usuarios</a></li>
             @if(Auth::User()->cod_tipo_usuario == 'TU001')
-            <li class="list-group-item"><a href="#">Nuevo usuario</a></li>
+            <!--<li class="list-group-item"><a href="#">Nuevo usuario</a></li>-->
             @endif
             <!--<li class="list-group-item"><a href="#">Ver auditores</a></li>
             <li class="list-group-item"><a href="#">Nuevo auditor</a></li>-->
@@ -52,6 +52,9 @@
             @endif
             @if(Auth::User()->cod_tipo_usuario == 'TU005') 
             <li class="list-group-item"><a href="{{ route('rechazos_produccion') }}">Rechazo de producción</a></li>
+            @endif
+            @if(Auth::User()->cod_tipo_usuario == 'TU002' || Auth::User()->cod_tipo_usuario == 'TU003' || Auth::User()->cod_tipo_usuario == 'TU005') 
+            <li class="list-group-item"><a href="{{ route('bihoral_hoy') }}">Bihorales</a></li>
             @endif
         </div>
     </div>

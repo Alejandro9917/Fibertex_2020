@@ -1,0 +1,12 @@
+Google cloud 
+sudo su
+
+Maria db
+root -> root
+
+.env
+ale -> 12345
+
+Las rutas para que laravel funcionen deben ir con:
+/var/www/html/laravel
+a2enmod rewrite
